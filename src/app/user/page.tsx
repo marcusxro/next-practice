@@ -11,7 +11,7 @@ interface Account {
   isPrivate: boolean;
   Username: string;
 }
-const page:React.FC = () => {
+const UserPage:React.FC = () => {
   const [accounts, setAccounts] = useState<Account[]>([]); // Set up state for the accounts data
   const [loading, setLoading] = useState(true); // To handle loading state
 
@@ -51,4 +51,4 @@ const page:React.FC = () => {
   )
 }
 
-export default page
+export default UserPage
