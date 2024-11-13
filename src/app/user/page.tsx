@@ -1,9 +1,18 @@
 'use client';
 
 import React, { useEffect, useState } from 'react'
-
-const page = () => {
-  const [accounts, setAccounts] = useState<any[]>([]); // Set up state for the accounts data
+interface Account {
+  Fullname: string;
+  Email: string;
+  Password: string;
+  isBanned: boolean;
+  Uid: string;
+  Pfp: string;
+  isPrivate: boolean;
+  Username: string;
+}
+const page:React.FC = () => {
+  const [accounts, setAccounts] = useState<Account[]>([]); // Set up state for the accounts data
   const [loading, setLoading] = useState(true); // To handle loading state
 
   useEffect(() => {
