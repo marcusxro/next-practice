@@ -1,6 +1,5 @@
 import connectDB from "@/app/lib/mongodb";
 import accounts from "@/app/models/accounts";
-import { NextApiRequest } from "next";
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
