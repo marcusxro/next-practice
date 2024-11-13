@@ -1,8 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 
-const page = () => {
-
+const Page = () => {
     const [formData, setFormData] = useState({
         Email: '',
         Fullname: '',
@@ -14,17 +13,15 @@ const page = () => {
         isPrivate: false,
     });
 
-    const handleChange = (e: any) => {
-        const { name, value } = e.target;
-        console.log(name)
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value, type, checked } = e.target;
         setFormData({
             ...formData,
-            [name]: value,
+            [name]: type === 'checkbox' ? checked : value,
         });
     };
 
-    
-    const handleSubmit = async (e: any) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
             const response = await fetch('/api/post', {
@@ -37,39 +34,36 @@ const page = () => {
 
             if (!response.ok) {
                 throw new Error('Network response was not ok');
-            } else {
-                setFormData({
-                    Email: '',
-                    Fullname: '',
-                    Password: '',
-                    Pfp: '',
-                    Uid: '',
-                    Username: '',
-                    isBanned: false,
-                    isPrivate: false,
-                });
-                alert("sent")
             }
-            const data = await response.json();
-            console.log("sent")
-            console.log(data);
+
+            setFormData({
+                Email: '',
+                Fullname: '',
+                Password: '',
+                Pfp: '',
+                Uid: '',
+                Username: '',
+                isBanned: false,
+                isPrivate: false,
+            });
+
+            alert("Account created successfully!");
         } catch (error) {
             console.error('Failed to submit data:', error);
         }
     };
 
-
-
     return (
-        <div className='p-5'>
+        <div className="p-5">
             <div>Create user</div>
             <form
-            className='flex flex-col gap-2 w-full max-w-[500px] bg-gray-100 p-5 rounded text-black'
-             onSubmit={handleSubmit}>
+                className="flex flex-col gap-2 w-full max-w-[500px] bg-gray-100 p-5 rounded text-black"
+                onSubmit={handleSubmit}
+            >
                 <div className="flex gap-2">
                     <label>Email:</label>
                     <input
-                    className="text-white bg-[#222] rounded-md"
+                        className="text-white bg-[#222] rounded-md"
                         type="email"
                         name="Email"
                         value={formData.Email}
@@ -81,7 +75,7 @@ const page = () => {
                 <div className="flex gap-2">
                     <label>Fullname:</label>
                     <input
-                    className="text-white bg-[#222] rounded-md"
+                        className="text-white bg-[#222] rounded-md"
                         type="text"
                         name="Fullname"
                         value={formData.Fullname}
@@ -93,7 +87,7 @@ const page = () => {
                 <div className="flex gap-2">
                     <label>Password:</label>
                     <input
-                    className="text-white bg-[#222] rounded-md"
+                        className="text-white bg-[#222] rounded-md"
                         type="password"
                         name="Password"
                         value={formData.Password}
@@ -105,7 +99,7 @@ const page = () => {
                 <div className="flex gap-2">
                     <label>Pfp (Profile Picture URL):</label>
                     <input
-                    className="text-white bg-[#222] rounded-md"
+                        className="text-white bg-[#222] rounded-md"
                         type="text"
                         name="Pfp"
                         value={formData.Pfp}
@@ -116,7 +110,7 @@ const page = () => {
                 <div className="flex gap-2">
                     <label>UID:</label>
                     <input
-                    className="text-white bg-[#222] rounded-md"
+                        className="text-white bg-[#222] rounded-md"
                         type="text"
                         name="Uid"
                         value={formData.Uid}
@@ -128,7 +122,7 @@ const page = () => {
                 <div className="flex gap-2">
                     <label>Username:</label>
                     <input
-                    className="text-white bg-[#222] rounded-md"
+                        className="text-white bg-[#222] rounded-md"
                         type="text"
                         name="Username"
                         value={formData.Username}
@@ -144,7 +138,7 @@ const page = () => {
                             type="checkbox"
                             name="isBanned"
                             checked={formData.isBanned}
-               
+                            onChange={handleChange}
                         />
                     </label>
                 </div>
@@ -156,17 +150,20 @@ const page = () => {
                             type="checkbox"
                             name="isPrivate"
                             checked={formData.isPrivate}
-        
+                            onChange={handleChange}
                         />
                     </label>
                 </div>
 
                 <button
-                className='bg-blue-500 text-white p-2 rounded'
-                 type="submit">Submit</button>
+                    className="bg-blue-500 text-white p-2 rounded"
+                    type="submit"
+                >
+                    Submit
+                </button>
             </form>
         </div>
-    )
-}
+    );
+};
 
-export default page
+export default Page;
